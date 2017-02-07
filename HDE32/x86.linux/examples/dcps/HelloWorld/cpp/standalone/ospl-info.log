@@ -1,0 +1,266 @@
+========================================================================================
+Report      : INFO
+Date        : Mon Feb 06 23:22:02 CST 2017
+Description : u_domainNew:Database allocated on heap
+Node        : localhost.localdomain
+Process     : sacpp_helloworld_pub <12688>
+Thread      : spliced b735db70
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/user::u_domain::u_domainNew/u_domain.c/706/0/1486444922.780116360
+========================================================================================
+Report      : INFO
+Date        : Mon Feb 06 23:22:02 CST 2017
+Description : ---------------------------------------------------------------
+              -- The service is using the following configuration settings --
+              ---------------------------------------------------------------
+              Domain (id)          : ospl_sp_ddsi (0)
+              Storage              : 10240 Kbytes
+              Storage threshold    : 1024 Kbytes
+              Storage address      : Not available
+              Locking              : default
+              Memory mode          : Heap memory
+              Builtin topics       : true
+              Priority inheritance : false
+Node        : localhost.localdomain
+Process     : sacpp_helloworld_pub <12688>
+Thread      : spliced b735db70
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/The OpenSplice domain service/u_domain.c/827/0/1486444922.785015034
+========================================================================================
+Report      : INFO
+Date        : Mon Feb 06 23:22:02 CST 2017
+Description : Service cmsoap disabled
+Node        : localhost.localdomain
+Process     : sacpp_helloworld_pub <12688>
+Thread      : spliced b735db70
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/OpenSplice domain service/sr_componentInfo.c/439/0/1486444922.785336267
+========================================================================================
+Report      : INFO
+Date        : Mon Feb 06 23:22:02 CST 2017
+Description : ++++++++++++++++++++++++++++++++++++++++++++++++
+              ++ The service 'splicedaemon' is now operational. 
+              ++++++++++++++++++++++++++++++++++++++++++++++++
+Node        : localhost.localdomain
+Process     : sacpp_helloworld_pub <12688>
+Thread      : spliced b735db70
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_serviceChangeState/v_service.c/329/0/1486444922.785706665
+========================================================================================
+Report      : INFO
+Date        : Mon Feb 06 23:22:02 CST 2017
+Description : ++++++++++++++++++++++++++++++++++++++++++++++++
+              ++ The service 'ddsi2' is now operational. 
+              ++++++++++++++++++++++++++++++++++++++++++++++++
+Node        : localhost.localdomain
+Process     : sacpp_helloworld_pub <12688>
+Thread      : ddsi2 b6cfab70
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_serviceChangeState/v_service.c/329/0/1486444922.794041736
+========================================================================================
+Report      : INFO
+Date        : Mon Feb 06 23:22:03 CST 2017
+Description : The durability service can by identified by ID: 1259487470
+Node        : localhost.localdomain
+Process     : sacpp_helloworld_pub <12688>
+Thread      : durability b6dfbb70
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/DurabilityService/d_durability.c/476/0/1486444923.401324584
+========================================================================================
+Report      : INFO
+Date        : Mon Feb 06 23:22:09 CST 2017
+Description : u_domainNew:Database allocated on heap
+Node        : localhost.localdomain
+Process     : sacpp_helloworld_pub <12737>
+Thread      : spliced b73ccb70
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/user::u_domain::u_domainNew/u_domain.c/706/0/1486444929.041190754
+========================================================================================
+Report      : INFO
+Date        : Mon Feb 06 23:22:09 CST 2017
+Description : ---------------------------------------------------------------
+              -- The service is using the following configuration settings --
+              ---------------------------------------------------------------
+              Domain (id)          : ospl_sp_ddsi (0)
+              Storage              : 10240 Kbytes
+              Storage threshold    : 1024 Kbytes
+              Storage address      : Not available
+              Locking              : default
+              Memory mode          : Heap memory
+              Builtin topics       : true
+              Priority inheritance : false
+Node        : localhost.localdomain
+Process     : sacpp_helloworld_pub <12737>
+Thread      : spliced b73ccb70
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/The OpenSplice domain service/u_domain.c/827/0/1486444929.045845815
+========================================================================================
+Report      : INFO
+Date        : Mon Feb 06 23:22:09 CST 2017
+Description : Service cmsoap disabled
+Node        : localhost.localdomain
+Process     : sacpp_helloworld_pub <12737>
+Thread      : spliced b73ccb70
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/OpenSplice domain service/sr_componentInfo.c/439/0/1486444929.046081596
+========================================================================================
+Report      : INFO
+Date        : Mon Feb 06 23:22:09 CST 2017
+Description : ++++++++++++++++++++++++++++++++++++++++++++++++
+              ++ The service 'splicedaemon' is now operational. 
+              ++++++++++++++++++++++++++++++++++++++++++++++++
+Node        : localhost.localdomain
+Process     : sacpp_helloworld_pub <12737>
+Thread      : spliced b73ccb70
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_serviceChangeState/v_service.c/329/0/1486444929.046586215
+========================================================================================
+Report      : INFO
+Date        : Mon Feb 06 23:22:09 CST 2017
+Description : ++++++++++++++++++++++++++++++++++++++++++++++++
+              ++ The service 'ddsi2' is now operational. 
+              ++++++++++++++++++++++++++++++++++++++++++++++++
+Node        : localhost.localdomain
+Process     : sacpp_helloworld_pub <12737>
+Thread      : ddsi2 b6d6ab70
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_serviceChangeState/v_service.c/329/0/1486444929.053806602
+========================================================================================
+Report      : INFO
+Date        : Mon Feb 06 23:22:09 CST 2017
+Description : The durability service can by identified by ID: 872863050
+Node        : localhost.localdomain
+Process     : sacpp_helloworld_pub <12737>
+Thread      : durability b6e6bb70
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/DurabilityService/d_durability.c/476/0/1486444929.867519750
+========================================================================================
+Report      : INFO
+Date        : Mon Feb 06 23:22:34 CST 2017
+Description : u_domainNew:Database allocated on heap
+Node        : localhost.localdomain
+Process     : sacpp_helloworld_sub <12791>
+Thread      : spliced b731fb70
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/user::u_domain::u_domainNew/u_domain.c/706/0/1486444954.483177765
+========================================================================================
+Report      : INFO
+Date        : Mon Feb 06 23:22:34 CST 2017
+Description : ---------------------------------------------------------------
+              -- The service is using the following configuration settings --
+              ---------------------------------------------------------------
+              Domain (id)          : ospl_sp_ddsi (0)
+              Storage              : 10240 Kbytes
+              Storage threshold    : 1024 Kbytes
+              Storage address      : Not available
+              Locking              : default
+              Memory mode          : Heap memory
+              Builtin topics       : true
+              Priority inheritance : false
+Node        : localhost.localdomain
+Process     : sacpp_helloworld_sub <12791>
+Thread      : spliced b731fb70
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/The OpenSplice domain service/u_domain.c/827/0/1486444954.487510791
+========================================================================================
+Report      : INFO
+Date        : Mon Feb 06 23:22:34 CST 2017
+Description : Service cmsoap disabled
+Node        : localhost.localdomain
+Process     : sacpp_helloworld_sub <12791>
+Thread      : spliced b731fb70
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/OpenSplice domain service/sr_componentInfo.c/439/0/1486444954.487989626
+========================================================================================
+Report      : INFO
+Date        : Mon Feb 06 23:22:34 CST 2017
+Description : ++++++++++++++++++++++++++++++++++++++++++++++++
+              ++ The service 'splicedaemon' is now operational. 
+              ++++++++++++++++++++++++++++++++++++++++++++++++
+Node        : localhost.localdomain
+Process     : sacpp_helloworld_sub <12791>
+Thread      : spliced b731fb70
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_serviceChangeState/v_service.c/329/0/1486444954.488448471
+========================================================================================
+Report      : INFO
+Date        : Mon Feb 06 23:22:34 CST 2017
+Description : ++++++++++++++++++++++++++++++++++++++++++++++++
+              ++ The service 'ddsi2' is now operational. 
+              ++++++++++++++++++++++++++++++++++++++++++++++++
+Node        : localhost.localdomain
+Process     : sacpp_helloworld_sub <12791>
+Thread      : ddsi2 b6c7bb70
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_serviceChangeState/v_service.c/329/0/1486444954.497889112
+========================================================================================
+Report      : INFO
+Date        : Mon Feb 06 23:22:35 CST 2017
+Description : The durability service can by identified by ID: 296949713
+Node        : localhost.localdomain
+Process     : sacpp_helloworld_sub <12791>
+Thread      : durability b6d7cb70
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/DurabilityService/d_durability.c/476/0/1486444955.211269248
+========================================================================================
+Report      : INFO
+Date        : Mon Feb 06 23:22:37 CST 2017
+Description : u_domainNew:Database allocated on heap
+Node        : localhost.localdomain
+Process     : sacpp_helloworld_pub <12838>
+Thread      : spliced b7356b70
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/user::u_domain::u_domainNew/u_domain.c/706/0/1486444957.153337063
+========================================================================================
+Report      : INFO
+Date        : Mon Feb 06 23:22:37 CST 2017
+Description : ---------------------------------------------------------------
+              -- The service is using the following configuration settings --
+              ---------------------------------------------------------------
+              Domain (id)          : ospl_sp_ddsi (0)
+              Storage              : 10240 Kbytes
+              Storage threshold    : 1024 Kbytes
+              Storage address      : Not available
+              Locking              : default
+              Memory mode          : Heap memory
+              Builtin topics       : true
+              Priority inheritance : false
+Node        : localhost.localdomain
+Process     : sacpp_helloworld_pub <12838>
+Thread      : spliced b7356b70
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/The OpenSplice domain service/u_domain.c/827/0/1486444957.157977396
+========================================================================================
+Report      : INFO
+Date        : Mon Feb 06 23:22:37 CST 2017
+Description : Service cmsoap disabled
+Node        : localhost.localdomain
+Process     : sacpp_helloworld_pub <12838>
+Thread      : spliced b7356b70
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/OpenSplice domain service/sr_componentInfo.c/439/0/1486444957.158291449
+========================================================================================
+Report      : INFO
+Date        : Mon Feb 06 23:22:37 CST 2017
+Description : ++++++++++++++++++++++++++++++++++++++++++++++++
+              ++ The service 'splicedaemon' is now operational. 
+              ++++++++++++++++++++++++++++++++++++++++++++++++
+Node        : localhost.localdomain
+Process     : sacpp_helloworld_pub <12838>
+Thread      : spliced b7356b70
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_serviceChangeState/v_service.c/329/0/1486444957.158847837
+========================================================================================
+Report      : INFO
+Date        : Mon Feb 06 23:22:37 CST 2017
+Description : ++++++++++++++++++++++++++++++++++++++++++++++++
+              ++ The service 'ddsi2' is now operational. 
+              ++++++++++++++++++++++++++++++++++++++++++++++++
+Node        : localhost.localdomain
+Process     : sacpp_helloworld_pub <12838>
+Thread      : ddsi2 b6cfab70
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_serviceChangeState/v_service.c/329/0/1486444957.169552865
+========================================================================================
+Report      : INFO
+Date        : Mon Feb 06 23:22:37 CST 2017
+Description : The durability service can by identified by ID: 765377728
+Node        : localhost.localdomain
+Process     : sacpp_helloworld_pub <12838>
+Thread      : durability b6dfbb70
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/DurabilityService/d_durability.c/476/0/1486444957.273592712
+========================================================================================
+Report      : INFO
+Date        : Mon Feb 06 23:22:42 CST 2017
+Description : ++++++++++++++++++++++++++++++++++++++++++++++++
+              ++ The service 'durability' is now operational. 
+              ++++++++++++++++++++++++++++++++++++++++++++++++
+Node        : localhost.localdomain
+Process     : sacpp_helloworld_sub <12791>
+Thread      : durability b6d7cb70
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_serviceChangeState/v_service.c/329/0/1486444962.240342106
+========================================================================================
+Report      : INFO
+Date        : Mon Feb 06 23:25:49 CST 2017
+Description : Termination request (signal 2) received from PID 12791 (self), UID 0
+Node        : localhost.localdomain
+Process     : sacpp_helloworld_sub <12791>
+Thread      : signalHandler b7720b70
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/signalHandlerThread/os_signalHandler.c/503/0/1486445149.687579556
