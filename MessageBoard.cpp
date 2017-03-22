@@ -1,0 +1,630 @@
+/*
+ *                         OpenSplice DDS
+ *
+ *   This software and documentation are Copyright 2006 to 2013 PrismTech
+ *   Limited and its licensees. All rights reserved. See file:
+ *
+ *                     $OSPL_HOME/LICENSE
+ *
+ *   for full copyright notice and license terms.
+ *
+ */
+
+/************************************************************************
+ * LOGICAL_NAME:    MessageBoard.cpp
+ * FUNCTION:        OpenSplice Tutorial example code.
+ * MODULE:          Tutorial for the C++ programming language.
+ * DATE             june 2007.
+ ************************************************************************
+ *
+ * This file contains the implementation for the 'MessageBoard' executable.
+ *
+ ***/
+
+#include <iostream>
+#include <string.h>
+
+#include "ccpp_dds_dcps.h"
+#include "CheckStatus.h"
+#include "ccpp_Chat.h"
+#include "multitopic.h"
+
+#ifndef _WIN32
+#include <unistd.h>
+#else
+#include "os_stdlib.h"
+#include <Windows.h>
+#include <pthreads>
+
+static void sleep(int secs)
+{
+    Sleep(secs * 1000);
+}
+#endif
+
+//#include "example_main.h"
+
+#define MAX_MSG_LEN 256
+#define NUM_MSG 10
+#define TERMINATION_MESSAGE -1
+
+using namespace DDS;
+using namespace Chat;
+
+void *board(void* trash)
+{/*
+#ifdef _WRS_KERNEL  Entry points for VxWorks kernel build 
+#define USE_NANOSLEEP
+int messageboard_main (int argc, char ** argv);
+extern "C" {
+   int messageboard (char * args);
+}
+int messageboard (char * args)
+{*/
+   char* args;
+   int argc=1;
+   char *argv[256];
+   char *str1;
+   argv[0] = (char*) strdup ("messageboard");
+   str1 = (char*) strtok(args, " ");
+   while (str1)
+   {
+      argv[argc] = (char*) strdup (str1);
+      argc++;
+      str1 = strtok(NULL, " ");
+   }/*
+   return messageboard_main (argc, argv);
+}
+int messageboard_main (int argc, char ** argv)
+#else
+int
+OSPL_MAIN (
+    int argc,
+    char *argv[])
+#endif
+{*/
+    /* Generic DDS entities */
+    DomainParticipantFactory_var    dpf;
+    DomainParticipant_var           parentDP;
+    ExtDomainParticipant_var        participant;
+    Topic_var                       chatMessageTopic;
+    Topic_var                       nameServiceTopic;
+    TopicDescription_var            namedMessageTopic;
+    Subscriber_var                  chatSubscriber;
+    DataReader_var                  parentReader;
+
+    /* Type-specific DDS entities */
+    ChatMessageTypeSupport_var      chatMessageTS;
+    NameServiceTypeSupport_var      nameServiceTS;
+    NamedMessageTypeSupport_var     namedMessageTS;
+    NamedMessageDataReader_var      chatAdmin;
+    NamedMessageSeq_var             msgSeq = new NamedMessageSeq();
+    SampleInfoSeq_var               infoSeq = new SampleInfoSeq();
+
+    /* QosPolicy holders */
+    TopicQos                        reliable_topic_qos;
+    TopicQos                        setting_topic_qos;
+    SubscriberQos                   sub_qos;
+    DDS::StringSeq                  parameterList;
+
+    /* DDS Identifiers */
+    DomainId_t                      domain = DOMAIN_ID_DEFAULT;
+    ReturnCode_t                    status;
+
+    /* Others */
+    bool                            terminated = false;
+    const char *                    partitionName = "ChatRoom";
+    char  *                         chatMessageTypeName = NULL;
+    char  *                         nameServiceTypeName = NULL;
+    char  *                         namedMessageTypeName = NULL;
+
+#ifdef USE_NANOSLEEP
+    struct timespec                 sleeptime;
+    struct timespec                 remtime;
+#endif
+
+    /* Options: MessageBoard [ownID] */
+    /* Messages having owner ownID will be ignored */
+    parameterList.length(1);
+
+    if (argc > 1) {
+        parameterList[0] = DDS::string_dup(argv[1]);
+    }
+    else
+    {
+        parameterList[0] = "0";
+    }
+
+    /* Create a DomainParticipantFactory and a DomainParticipant (using Default QoS settings. */
+    dpf = DomainParticipantFactory::get_instance();
+    checkHandle(dpf.in(), "DDS::DomainParticipantFactory::get_instance");
+    parentDP = dpf->create_participant (
+        domain,
+        PARTICIPANT_QOS_DEFAULT,
+        NULL,
+        STATUS_MASK_NONE);
+    checkHandle(parentDP.in(), "DDS::DomainParticipantFactory::create_participant");
+
+    /* Narrow the normal participant to its extended representative */
+    participant = ExtDomainParticipantImpl::_narrow(parentDP.in());
+    checkHandle(participant.in(), "DDS::ExtDomainParticipant::_narrow");
+
+    /* Register the required datatype for ChatMessage. */
+    chatMessageTS = new ChatMessageTypeSupport();
+    checkHandle(chatMessageTS.in(), "new ChatMessageTypeSupport");
+    chatMessageTypeName = chatMessageTS->get_type_name();
+    status = chatMessageTS->register_type(
+        participant.in(),
+        chatMessageTypeName);
+    checkStatus(status, "Chat::ChatMessageTypeSupport::register_type");
+
+    /* Register the required datatype for NameService. */
+    nameServiceTS = new NameServiceTypeSupport();
+    checkHandle(nameServiceTS.in(), "new NameServiceTypeSupport");
+    nameServiceTypeName =  nameServiceTS->get_type_name();
+    status = nameServiceTS->register_type(
+        participant.in(),
+        nameServiceTypeName);
+    checkStatus(status, "Chat::NameServiceTypeSupport::register_type");
+
+    /* Register the required datatype for NamedMessage. */
+    namedMessageTS = new NamedMessageTypeSupport();
+    checkHandle(namedMessageTS.in(), "new NamedMessageTypeSupport");
+    namedMessageTypeName = namedMessageTS->get_type_name();
+    status = namedMessageTS->register_type(
+        participant.in(),
+        namedMessageTypeName);
+    checkStatus(status, "Chat::NamedMessageTypeSupport::register_type");
+
+    /* Set the ReliabilityQosPolicy to RELIABLE. */
+    status = participant->get_default_topic_qos(reliable_topic_qos);
+    checkStatus(status, "DDS::DomainParticipant::get_default_topic_qos");
+    reliable_topic_qos.reliability.kind = DDS::RELIABLE_RELIABILITY_QOS;
+
+    /* Make the tailored QoS the new default. */
+    status = participant->set_default_topic_qos(reliable_topic_qos);
+    checkStatus(status, "DDS::DomainParticipant::set_default_topic_qos");
+
+    /* Use the changed policy when defining the ChatMessage topic */
+    chatMessageTopic = participant->create_topic(
+        "Chat_ChatMessage",
+        chatMessageTypeName,
+        reliable_topic_qos,
+        NULL,
+        STATUS_MASK_NONE);
+    checkHandle(chatMessageTopic.in(), "DDS::DomainParticipant::create_topic (ChatMessage)");
+
+    /* Set the DurabilityQosPolicy to TRANSIENT. */
+    status = participant->get_default_topic_qos(setting_topic_qos);
+    checkStatus(status, "DDS::DomainParticipant::get_default_topic_qos");
+    setting_topic_qos.durability.kind = DDS::TRANSIENT_DURABILITY_QOS;
+
+    /* Create the NameService Topic. */
+    nameServiceTopic = participant->create_topic(
+        "Chat_NameService",
+        nameServiceTypeName,
+        setting_topic_qos,
+        NULL,
+        STATUS_MASK_NONE);
+    checkHandle(nameServiceTopic.in(), "DDS::DomainParticipant::create_topic");
+
+    /* Create a multitopic that substitutes the userID with its corresponding userName. */
+    namedMessageTopic = participant->create_simulated_multitopic(
+        "Chat_NamedMessage",
+        namedMessageTypeName,
+        "SELECT userID, name AS userName, index, content, happy "
+            "FROM Chat_NameService NATURAL JOIN Chat_ChatMessage WHERE userID <> %0",
+        parameterList);
+    checkHandle(namedMessageTopic.in(), "DDS::ExtDomainParticipant::create_simulated_multitopic");
+
+    /* Adapt the default SubscriberQos to read from the "ChatRoom" Partition. */
+    status = participant->get_default_subscriber_qos (sub_qos);
+    checkStatus(status, "DDS::DomainParticipant::get_default_subscriber_qos");
+    sub_qos.partition.name.length(1);
+    sub_qos.partition.name[0] = partitionName;
+
+    /* Create a Subscriber for the MessageBoard application. */
+    chatSubscriber = participant->create_subscriber(sub_qos, NULL, STATUS_MASK_NONE);
+    checkHandle(chatSubscriber.in(), "DDS::DomainParticipant::create_subscriber");
+
+    /* Create a DataReader for the NamedMessage Topic (using the appropriate QoS). */
+    parentReader = chatSubscriber->create_datareader(
+        namedMessageTopic.in(),
+        DATAREADER_QOS_USE_TOPIC_QOS,
+        NULL,
+        STATUS_MASK_NONE);
+    checkHandle(parentReader.in(), "DDS::Subscriber::create_datareader");
+
+    /* Narrow the abstract parent into its typed representative. */
+    chatAdmin = Chat::NamedMessageDataReader::_narrow(parentReader.in());
+    checkHandle(chatAdmin.in(), "Chat::NamedMessageDataReader::_narrow");
+
+    /* Print a message that the MessageBoard has opened. */
+    cout << "MessageBoard has opened: send a ChatMessage with userID = -1 to close it...." << endl << endl;
+
+    while (!terminated) {
+        /* Note: using read does not remove the samples from
+           unregistered instances from the DataReader. This means
+           that the DataRase would use more and more resources.
+           That's why we use take here instead. */
+
+        status = chatAdmin->take(
+            msgSeq,
+            infoSeq,
+            LENGTH_UNLIMITED,
+            ANY_SAMPLE_STATE,
+            ANY_VIEW_STATE,
+            ALIVE_INSTANCE_STATE );
+        checkStatus(status, "Chat::NamedMessageDataReader::take");
+
+        for (DDS::ULong i = 0; i < msgSeq->length(); i++) {
+            NamedMessage *msg = &(msgSeq[i]);
+            if (msg->userID == TERMINATION_MESSAGE) {
+                cout << "Termination message received: exiting..." << endl;
+                terminated = true;
+            } else {
+                cout << msg->userName << ": " << msg->content << ": " << msg->happy;
+		cout << endl;
+            }
+            fflush(stdout);
+        }
+
+        status = chatAdmin->return_loan(msgSeq, infoSeq);
+        checkStatus(status, "Chat::ChatMessageDataReader::return_loan");
+
+        /* Sleep for some amount of time, as not to consume too much CPU cycles. */
+#ifdef USE_NANOSLEEP
+        sleeptime.tv_sec = 0;
+        sleeptime.tv_nsec = 100000000;
+        nanosleep(&sleeptime, &remtime);
+#elif defined _WIN32
+        Sleep(100);
+#else
+        usleep(100000);
+#endif
+    }
+
+    /* Remove the DataReader */
+    status = chatSubscriber->delete_datareader(chatAdmin.in());
+    checkStatus(status, "DDS::Subscriber::delete_datareader");
+
+    /* Remove the Subscriber. */
+    status = participant->delete_subscriber(chatSubscriber.in());
+    checkStatus(status, "DDS::DomainParticipant::delete_subscriber");
+
+    /* Remove the Topics. */
+    status = participant->delete_simulated_multitopic(namedMessageTopic.in());
+    checkStatus(status, "DDS::ExtDomainParticipant::delete_simulated_multitopic");
+
+    status = participant->delete_topic(nameServiceTopic.in());
+    checkStatus(status, "DDS::DomainParticipant::delete_topic (nameServiceTopic)");
+
+    status = participant->delete_topic(chatMessageTopic.in());
+    checkStatus(status, "DDS::DomainParticipant::delete_topic (chatMessageTopic)");
+
+    /* De-allocate the type-names. */
+    DDS::string_free(namedMessageTypeName);
+    DDS::string_free(nameServiceTypeName);
+    DDS::string_free(chatMessageTypeName);
+
+    /* Remove the DomainParticipant. */
+    status = dpf->delete_participant(participant.in());
+    checkStatus(status, "DDS::DomainParticipantFactory::delete_participant");
+
+    return 0;
+}
+
+void *chatter(void* trash)
+{/*
+#ifdef _WRS_KERNEL
+int chatter_main (int argc, char ** argv);
+extern "C" {
+   int chatter (char * args);
+}
+int chatter (char * args)
+{*/
+   char* args;
+   int argc=1;
+   char *argv[256];
+   char *str1;
+   argv[0] = (char*) strdup ("Chatter");
+   str1 = (char*) strtok(args, " ");
+   while (str1)
+   {
+      argv[argc] = (char*) strdup (str1);
+      argc++;
+      str1 = strtok(NULL, " ");
+   }/*
+   return chatter_main (argc, argv);
+}
+int chatter_main (int argc, char ** argv)
+#else
+int
+OSPL_MAIN (
+    int argc,
+    char *argv[])
+#endif
+{*/
+    /* Generic DDS entities */
+    DomainParticipantFactory_var    dpf;
+    DomainParticipant_var           participant;
+    Topic_var                       chatMessageTopic;
+    Topic_var                       nameServiceTopic;
+    Publisher_var                   chatPublisher;
+    DataWriter_var                  parentWriter;
+
+    /* QosPolicy holders */
+    TopicQos                        reliable_topic_qos;
+    TopicQos                        setting_topic_qos;
+    PublisherQos                    pub_qos;
+    DataWriterQos                   dw_qos;
+
+    /* DDS Identifiers */
+    DomainId_t                      domain = DOMAIN_ID_DEFAULT;
+    InstanceHandle_t                userHandle;
+    ReturnCode_t                    status;
+
+    /* Type-specific DDS entities */
+    ChatMessageTypeSupport_var      chatMessageTS;
+    NameServiceTypeSupport_var      nameServiceTS;
+    ChatMessageDataWriter_var       talker;
+    NameServiceDataWriter_var       nameServer;
+
+    /* Sample definitions */
+    ChatMessage                     *msg;   /* Example on Heap */
+    NameService                     ns;     /* Example on Stack */
+
+    /* Others */
+    int                             ownID = 1;
+    int                             i;
+    char                            *chatterName = NULL;
+    const char                      *partitionName = "ChatRoom";
+    char                            *chatMessageTypeName = NULL;
+    char                            *nameServiceTypeName = NULL;
+    char                            buf [MAX_MSG_LEN];
+
+
+
+#ifdef INTEGRITY
+#ifdef CHATTER_QUIT
+    ownID = -1;
+#else
+    ownID = 1;
+#endif
+    chatterName = "dds_user";
+#else
+    /* Options: Chatter [ownID [name]] */
+    if (argc > 1) {
+        ownID = atoi(argv[1]);
+        if (argc > 2) {
+            chatterName = argv[2];
+        }
+    }
+#endif
+
+    /* Create a DomainParticipantFactory and a DomainParticipant (using Default QoS settings. */
+    dpf = DomainParticipantFactory::get_instance ();
+    checkHandle(dpf.in(), "DDS::DomainParticipantFactory::get_instance");
+    participant = dpf->create_participant(domain, PARTICIPANT_QOS_DEFAULT, NULL, STATUS_MASK_NONE);
+    checkHandle(participant.in(), "DDS::DomainParticipantFactory::create_participant");
+
+    /* Register the required datatype for ChatMessage. */
+    chatMessageTS = new ChatMessageTypeSupport();
+    checkHandle(chatMessageTS.in(), "new ChatMessageTypeSupport");
+    chatMessageTypeName = chatMessageTS->get_type_name();
+    status = chatMessageTS->register_type(
+        participant.in(),
+        chatMessageTypeName);
+    checkStatus(status, "Chat::ChatMessageTypeSupport::register_type");
+
+    /* Register the required datatype for NameService. */
+    nameServiceTS = new NameServiceTypeSupport();
+    checkHandle(nameServiceTS.in(), "new NameServiceTypeSupport");
+    nameServiceTypeName =  nameServiceTS->get_type_name();
+    status = nameServiceTS->register_type(
+        participant.in(),
+        nameServiceTypeName);
+    checkStatus(status, "Chat::NameServiceTypeSupport::register_type");
+
+    /* Set the ReliabilityQosPolicy to RELIABLE. */
+    status = participant->get_default_topic_qos(reliable_topic_qos);
+    checkStatus(status, "DDS::DomainParticipant::get_default_topic_qos");
+    reliable_topic_qos.reliability.kind = RELIABLE_RELIABILITY_QOS;
+
+    /* Make the tailored QoS the new default. */
+    status = participant->set_default_topic_qos(reliable_topic_qos);
+    checkStatus(status, "DDS::DomainParticipant::set_default_topic_qos");
+
+    /* Use the changed policy when defining the ChatMessage topic */
+    chatMessageTopic = participant->create_topic(
+        "Chat_ChatMessage",
+        chatMessageTypeName,
+        reliable_topic_qos,
+        NULL,
+        STATUS_MASK_NONE);
+    checkHandle(chatMessageTopic.in(), "DDS::DomainParticipant::create_topic (ChatMessage)");
+
+    /* Set the DurabilityQosPolicy to TRANSIENT. */
+    status = participant->get_default_topic_qos(setting_topic_qos);
+    checkStatus(status, "DDS::DomainParticipant::get_default_topic_qos");
+    setting_topic_qos.durability.kind = TRANSIENT_DURABILITY_QOS;
+
+    /* Create the NameService Topic. */
+    nameServiceTopic = participant->create_topic(
+        "Chat_NameService",
+        nameServiceTypeName,
+        setting_topic_qos,
+        NULL,
+        STATUS_MASK_NONE);
+    checkHandle(nameServiceTopic.in(), "DDS::DomainParticipant::create_topic (NameService)");
+
+    /* Adapt the default PublisherQos to write into the "ChatRoom" Partition. */
+    status = participant->get_default_publisher_qos (pub_qos);
+    checkStatus(status, "DDS::DomainParticipant::get_default_publisher_qos");
+    pub_qos.partition.name.length(1);
+    pub_qos.partition.name[0] = partitionName;
+
+    /* Create a Publisher for the chatter application. */
+    chatPublisher = participant->create_publisher(pub_qos, NULL, STATUS_MASK_NONE);
+    checkHandle(chatPublisher.in(), "DDS::DomainParticipant::create_publisher");
+
+    /* Create a DataWriter for the ChatMessage Topic (using the appropriate QoS). */
+    parentWriter = chatPublisher->create_datawriter(
+        chatMessageTopic.in(),
+        DATAWRITER_QOS_USE_TOPIC_QOS,
+        NULL,
+        STATUS_MASK_NONE);
+    checkHandle(parentWriter.in(), "DDS::Publisher::create_datawriter (chatMessage)");
+
+    /* Narrow the abstract parent into its typed representative. */
+    talker = ChatMessageDataWriter::_narrow(parentWriter.in());
+    checkHandle(talker.in(), "Chat::ChatMessageDataWriter::_narrow");
+
+    /* Create a DataWriter for the NameService Topic (using the appropriate QoS). */
+    status = chatPublisher->get_default_datawriter_qos(dw_qos);
+    checkStatus(status, "DDS::Publisher::get_default_datawriter_qos");
+    status = chatPublisher->copy_from_topic_qos(dw_qos, setting_topic_qos);
+    checkStatus(status, "DDS::Publisher::copy_from_topic_qos");
+    dw_qos.writer_data_lifecycle.autodispose_unregistered_instances = false;
+    parentWriter = chatPublisher->create_datawriter(
+        nameServiceTopic.in(),
+        dw_qos,
+        NULL,
+        STATUS_MASK_NONE);
+    checkHandle(parentWriter, "DDS::Publisher::create_datawriter (NameService)");
+
+    /* Narrow the abstract parent into its typed representative. */
+    nameServer = NameServiceDataWriter::_narrow(parentWriter.in());
+    checkHandle(nameServer.in(), "Chat::NameServiceDataWriter::_narrow");
+
+    /* Initialize the NameServer attributes located on stack. */
+    ns.userID = ownID;
+    if (chatterName) {
+        ns.name = DDS::string_dup(chatterName);
+    }
+    else
+    {
+        snprintf(buf, MAX_MSG_LEN, "Chatter %d", ownID);
+        ns.name = DDS::string_dup( buf );
+    }
+
+    /* Write the user-information into the system (registering the instance implicitly). */
+    status = nameServer->write(ns, HANDLE_NIL);
+    checkStatus(status, "Chat::ChatMessageDataWriter::write");
+
+    /* Initialize the chat messages on Heap. */
+    msg = new ChatMessage();
+    checkHandle(msg, "new ChatMessage");
+    msg->userID = ownID;
+    msg->index = 0;
+    if (ownID == TERMINATION_MESSAGE) {
+        snprintf (buf, MAX_MSG_LEN, "Termination message.");
+    } else {
+        snprintf (buf, MAX_MSG_LEN, "Hi There, I will send you UNENDING messages.");
+    }
+    msg->content = DDS::string_dup( buf );
+    snprintf (buf, MAX_MSG_LEN, "Happy");
+    msg->happy = DDS::string_dup(buf);
+    cout << "Writing message: \"" << msg->content  << "\"" << endl;
+
+    /* Register a chat message for this user (pre-allocating resources for it!!) */
+    userHandle = talker->register_instance(*msg);
+
+    /* Write a message using the pre-generated instance handle. */
+    status = talker->write(*msg, userHandle);
+    checkStatus(status, "Chat::ChatMessageDataWriter::write");
+
+    sleep (1); /* do not run so fast! */
+
+int j;
+char input[MAX_MSG_LEN];
+    /* Write any number of messages, re-using the existing string-buffer: no leak!!. */
+    for (i = 1; /*i >= 0 &&*/ ownID != TERMINATION_MESSAGE; i++) 
+{
+        msg->index = i;
+
+        j = 0;
+        do
+        {
+          cin.get(input[j]);
+          j++;
+        }while(j < MAX_MSG_LEN && (char)input[j-1] != '\n');
+
+        //snprintf (buf, MAX_MSG_LEN, "%s", input);
+        //snprintf (buf, MAX_MSG_LEN, "Message no. %d", i);
+        //msg->content = DDS::string_dup(buf);
+        msg->content = DDS::string_dup(input);
+        //cout << "Writing message: \"" << msg->content << "\" ";
+        //status = talker->write(*msg, userHandle);
+        //checkStatus(status, "Chat::ChatMessageDataWriter::write");
+
+	snprintf (buf, MAX_MSG_LEN, (i%3==0?"Happy":"Unhappy"));
+	msg->happy = DDS::string_dup(buf);
+	//cout << " Status: " << msg->happy << endl;
+	status = talker->write(*msg, userHandle);
+	checkStatus(status, "Chat::ChatMessageDataWriter::write");
+        sleep (1); /* do not run so fast! */
+
+        for(j = 0; j < MAX_MSG_LEN; j++) //Clear input so the next message
+        {                                //input by the user is the only
+          input[j] = '\0';               //thing inside input
+        }
+    }
+
+    /* Leave the room by disposing and unregistering the message instance. */
+    status = talker->dispose(*msg, userHandle);
+    checkStatus(status, "Chat::ChatMessageDataWriter::dispose");
+    status = talker->unregister_instance(*msg, userHandle);
+    checkStatus(status, "Chat::ChatMessageDataWriter::unregister_instance");
+
+    /* Also unregister our name. */
+    status = nameServer->unregister_instance(ns, HANDLE_NIL);
+    checkStatus(status, "Chat::NameServiceDataWriter::unregister_instance");
+
+    /* Release the data-samples. */
+    delete msg;     // msg allocated on heap: explicit de-allocation required!!
+
+    /* Remove the DataWriters */
+    status = chatPublisher->delete_datawriter( talker.in() );
+    checkStatus(status, "DDS::Publisher::delete_datawriter (talker)");
+
+    status = chatPublisher->delete_datawriter( nameServer.in() );
+    checkStatus(status, "DDS::Publisher::delete_datawriter (nameServer)");
+
+    /* Remove the Publisher. */
+    status = participant->delete_publisher( chatPublisher.in() );
+    checkStatus(status, "DDS::DomainParticipant::delete_publisher");
+
+    /* Remove the Topics. */
+    status = participant->delete_topic( nameServiceTopic.in() );
+    checkStatus(status, "DDS::DomainParticipant::delete_topic (nameServiceTopic)");
+
+    status = participant->delete_topic( chatMessageTopic.in() );
+    checkStatus(status, "DDS::DomainParticipant::delete_topic (chatMessageTopic)");
+
+    /* Remove the type-names. */
+    DDS::string_free(chatMessageTypeName);
+    DDS::string_free(nameServiceTypeName);
+
+    /* Remove the DomainParticipant. */
+    status = dpf->delete_participant( participant.in() );
+    checkStatus(status, "DDS::DomainParticipantFactory::delete_participant");
+
+    cout << "Completed Chatter example." << endl;
+
+    return 0;
+}
+
+int main()
+{
+  int status = 0;
+  int trash, more;
+  pthread_t mBoard, chat;
+
+  pthread_create(&mBoard, NULL, board, (void *) &trash);
+  pthread_create(&chat, NULL, chatter, (void *) &more);
+  pthread_join(mBoard, (void **)status);
+  pthread_join(chat, (void **)status);
+
+  pthread_exit(NULL);
+}
