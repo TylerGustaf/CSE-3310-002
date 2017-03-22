@@ -537,14 +537,14 @@ OSPL_MAIN (
     sleep (1); /* do not run so fast! */
 
 int j;
-char input[MAX_MSG_LEN];
+char input[MAX_MSG_LEN]; //Buffer simmilar to buf so that they can be separate
     /* Write any number of messages, re-using the existing string-buffer: no leak!!. */
     for (i = 1; /*i >= 0 &&*/ ownID != TERMINATION_MESSAGE; i++) 
 {
         msg->index = i;
 
         j = 0;
-        do
+        do	//Loop to get characters from input
         {
           cin.get(input[j]);
           j++;
@@ -618,11 +618,14 @@ char input[MAX_MSG_LEN];
 int main()
 {
   int status = 0;
-  int trash, more;
+  int trash, more;	//Garbage variables to send as arguments
   pthread_t mBoard, chat;
 
+  //Create threads and send trash and more as useless arguments
   pthread_create(&mBoard, NULL, board, (void *) &trash);
   pthread_create(&chat, NULL, chatter, (void *) &more);
+  
+  //Join threads
   pthread_join(mBoard, (void **)status);
   pthread_join(chat, (void **)status);
 
