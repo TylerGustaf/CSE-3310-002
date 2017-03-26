@@ -29,7 +29,7 @@
 #include "DDSEntityManager.h"
 #include "ccpp_SuperChat.h"
 #include "os.h"
-
+#include "GUI/gui.h"
 
 using namespace DDS;
 using namespace SuperChat;
@@ -46,7 +46,7 @@ struct Chatroom
   unsigned long chatroom_idx;
   // name of the chatroom
   char chatroom_name[CHATROOM_NAME_MAX];
-  
+
 };
 
 struct User
@@ -55,7 +55,7 @@ struct User
   char nick[NICK_SIZE_MAX];
   // unique identifier for a user.  contents TBD.
   unsigned long long uuid;
-  // an integer representing the checkroom index. 
+  // an integer representing the checkroom index.
   unsigned long chatroom_idx;
   // Previouse time heard from
   long double lastHeard;
@@ -130,7 +130,7 @@ void *sub(void* trash)
   cout << "=== [Subscriber] Ready ..." << endl;
 
   ReturnCode_t status =  - 1;
-  
+
   while (RUNNING) // We dont want the example to run indefinitely
   {
     status = messageReader->take(messageList, infoSeq, LENGTH_UNLIMITED,
@@ -164,7 +164,7 @@ void *sub(void* trash)
       cout << "=== [Subscriber] chatroom received :" << endl;
       cout << "    CR_idx : " <<chatroomList[j].chatroom_idx <<endl;
       cout << "    CR Name : " << chatroomList[j].chatroom_name << endl;
-      
+
     }
     status = chatroomReader->return_loan(chatroomList, infoSeq);
     checkStatus(status, "chatroomDataReader::return_loan");
@@ -293,7 +293,7 @@ void *pub(void* trash)
     }
 
     memset(input, 0, MESSAGE_SIZE_MAX);
-    
+
   }
 
   /* Remove the DataWriters */
@@ -397,7 +397,7 @@ void *watchUsers(void* trash)
   userDataReader_var userReader = userDataReader::_narrow(userreader.in());
   checkHandle(userReader.in(), "userDataReader::_narrow");
 
-  
+
   while(RUNNING)
   {
     status = userReader->take(userList, infoSeq, LENGTH_UNLIMITED,
@@ -537,11 +537,16 @@ void printUsers()
   }
 }
 
+void * guiThread(void * trash) {
+    std::cout << "test" << std::endl;
+    GUI * gui = new GUI();
+}
+
 int main()
 {
   int status = 0;
   int trash, moretrash;	//Garbage variables to send as arguments
-  pthread_t subscribe, publish, userinfo, getuserinfo;
+  pthread_t subscribe, publish, userinfo, getuserinfo, gui;
 
   initializeChatrooms();
   initializeLocalUser();
@@ -551,13 +556,14 @@ int main()
   pthread_create(&getuserinfo, NULL, watchUsers, (void *) &trash);
   pthread_create(&subscribe, NULL, sub, (void *) &trash);
   pthread_create(&publish, NULL, pub, (void *) &moretrash);
+  pthread_create(&gui, NULL, guiThread, (void *) &trash);
 
-  
   //Join threads
   pthread_join(subscribe, (void **)status);
   pthread_join(publish, (void **)status);
   pthread_join(getuserinfo, (void **)status);
   pthread_join(userinfo, (void **)status);
+  pthread_join(gui, (void **)status);
 
 //printUsers();
 

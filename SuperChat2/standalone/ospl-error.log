@@ -78,3 +78,331 @@ Node        : khanh-VirtualBox
 Process     : superchat <9052>
 Thread      : 7f4839751700
 Internals   : V6.4.140407OSS/3b83e82/3b83e82/os_mutexUnlock/os_mutex.c/284/0/1490558337.108674359
+========================================================================================
+Report      : ERROR
+Date        : Sun Mar 26 15:49:45 CDT 2017
+Description : Failed to connect to/create the default domain
+Node        : khanh-VirtualBox
+Process     : superchat <14468>
+Thread      : main thread 7f3974593700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/gapi::gapi_domainParticipantFactory::gapi_domainParticipantFactory_create_participant/gapi_domainParticipantFactory.c/280/0/1490561385.360807974
+========================================================================================
+Report      : ERROR
+Date        : Sun Mar 26 15:49:45 CDT 2017
+Description : Operation failed: mutex 0x6c001c38, result = Invalid argument
+Node        : khanh-VirtualBox
+Process     : superchat <14468>
+Thread      : 7f3973d92700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/os_mutexLock/os_mutex.c/209/0/1490561385.360930243
+========================================================================================
+Report      : ERROR
+Date        : Sun Mar 26 15:49:45 CDT 2017
+Description : User layer not initialized
+Node        : khanh-VirtualBox
+Process     : superchat <14468>
+Thread      : 7f3973d92700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/User Layer/u_user.c/118/0/1490561385.360941585
+========================================================================================
+Report      : ERROR
+Date        : Sun Mar 26 15:49:45 CDT 2017
+Description : Failed to connect to/create the default domain
+Node        : khanh-VirtualBox
+Process     : superchat <14468>
+Thread      : 7f3973d92700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/gapi::gapi_domainParticipantFactory::gapi_domainParticipantFactory_create_participant/gapi_domainParticipantFactory.c/280/0/1490561385.360965251
+========================================================================================
+Report      : ERROR
+Date        : Sun Mar 26 15:49:45 CDT 2017
+Description : Operation failed: mutex 0x6c001c38, result = Invalid argument
+Node        : khanh-VirtualBox
+Process     : superchat <14468>
+Thread      : 7f3973d92700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/os_mutexUnlock/os_mutex.c/284/0/1490561385.360971570
+========================================================================================
+Report      : ERROR
+Date        : Sun Mar 26 16:05:46 CDT 2017
+Description : Failed to connect to/create the default domain
+Node        : khanh-VirtualBox
+Process     : superchat <14846>
+Thread      : main thread 7f4ae5cd9700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/gapi::gapi_domainParticipantFactory::gapi_domainParticipantFactory_create_participant/gapi_domainParticipantFactory.c/280/0/1490562346.071057441
+========================================================================================
+Report      : ERROR
+Date        : Sun Mar 26 16:05:46 CDT 2017
+Description : Operation failed: mutex 0xdc001c38, result = Invalid argument
+Node        : khanh-VirtualBox
+Process     : superchat <14846>
+Thread      : 7f4ae54d8700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/os_mutexLock/os_mutex.c/209/0/1490562346.071189380
+========================================================================================
+Report      : ERROR
+Date        : Sun Mar 26 16:05:46 CDT 2017
+Description : User layer not initialized
+Node        : khanh-VirtualBox
+Process     : superchat <14846>
+Thread      : 7f4ae54d8700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/User Layer/u_user.c/118/0/1490562346.071204945
+========================================================================================
+Report      : ERROR
+Date        : Sun Mar 26 16:05:46 CDT 2017
+Description : Failed to connect to/create the default domain
+Node        : khanh-VirtualBox
+Process     : superchat <14846>
+Thread      : 7f4ae54d8700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/gapi::gapi_domainParticipantFactory::gapi_domainParticipantFactory_create_participant/gapi_domainParticipantFactory.c/280/0/1490562346.071238653
+========================================================================================
+Report      : ERROR
+Date        : Sun Mar 26 16:05:46 CDT 2017
+Description : Operation failed: mutex 0xdc001c38, result = Invalid argument
+Node        : khanh-VirtualBox
+Process     : superchat <14846>
+Thread      : 7f4ae54d8700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/os_mutexUnlock/os_mutex.c/284/0/1490562346.071255567
+========================================================================================
+Report      : ERROR
+Date        : Sun Mar 26 16:11:06 CDT 2017
+Description : Failed to connect to/create the default domain
+Node        : khanh-VirtualBox
+Process     : superchat <15081>
+Thread      : main thread 7f84e1609700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/gapi::gapi_domainParticipantFactory::gapi_domainParticipantFactory_create_participant/gapi_domainParticipantFactory.c/280/0/1490562666.828067378
+========================================================================================
+Report      : ERROR
+Date        : Sun Mar 26 16:11:06 CDT 2017
+Description : Operation failed: mutex 0xd8001c38, result = Invalid argument
+Node        : khanh-VirtualBox
+Process     : superchat <15081>
+Thread      : 7f84e0e08700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/os_mutexLock/os_mutex.c/209/0/1490562666.828208294
+========================================================================================
+Report      : ERROR
+Date        : Sun Mar 26 16:11:06 CDT 2017
+Description : User layer not initialized
+Node        : khanh-VirtualBox
+Process     : superchat <15081>
+Thread      : 7f84e0e08700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/User Layer/u_user.c/118/0/1490562666.828224021
+========================================================================================
+Report      : ERROR
+Date        : Sun Mar 26 16:11:06 CDT 2017
+Description : Failed to connect to/create the default domain
+Node        : khanh-VirtualBox
+Process     : superchat <15081>
+Thread      : 7f84e0e08700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/gapi::gapi_domainParticipantFactory::gapi_domainParticipantFactory_create_participant/gapi_domainParticipantFactory.c/280/0/1490562666.828256279
+========================================================================================
+Report      : ERROR
+Date        : Sun Mar 26 16:11:06 CDT 2017
+Description : Operation failed: mutex 0xd8001c38, result = Invalid argument
+Node        : khanh-VirtualBox
+Process     : superchat <15081>
+Thread      : 7f84e0e08700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/os_mutexUnlock/os_mutex.c/284/0/1490562666.828265055
+========================================================================================
+Report      : ERROR
+Date        : Sun Mar 26 16:11:12 CDT 2017
+Description : Failed to connect to/create the default domain
+Node        : khanh-VirtualBox
+Process     : superchat <15088>
+Thread      : main thread 7fad78777700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/gapi::gapi_domainParticipantFactory::gapi_domainParticipantFactory_create_participant/gapi_domainParticipantFactory.c/280/0/1490562672.837166052
+========================================================================================
+Report      : ERROR
+Date        : Sun Mar 26 16:11:12 CDT 2017
+Description : Operation failed: mutex 0x70001c38, result = Invalid argument
+Node        : khanh-VirtualBox
+Process     : superchat <15088>
+Thread      : 7fad76f74700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/os_mutexLock/os_mutex.c/209/0/1490562672.837525343
+========================================================================================
+Report      : ERROR
+Date        : Sun Mar 26 16:11:12 CDT 2017
+Description : User layer not initialized
+Node        : khanh-VirtualBox
+Process     : superchat <15088>
+Thread      : 7fad76f74700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/User Layer/u_user.c/118/0/1490562672.837537213
+========================================================================================
+Report      : ERROR
+Date        : Sun Mar 26 16:11:12 CDT 2017
+Description : Failed to connect to/create the default domain
+Node        : khanh-VirtualBox
+Process     : superchat <15088>
+Thread      : 7fad76f74700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/gapi::gapi_domainParticipantFactory::gapi_domainParticipantFactory_create_participant/gapi_domainParticipantFactory.c/280/0/1490562672.837568648
+========================================================================================
+Report      : ERROR
+Date        : Sun Mar 26 16:11:12 CDT 2017
+Description : Operation failed: mutex 0x70001c38, result = Invalid argument
+Node        : khanh-VirtualBox
+Process     : superchat <15088>
+Thread      : 7fad76f74700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/os_mutexUnlock/os_mutex.c/284/0/1490562672.837574958
+========================================================================================
+Report      : ERROR
+Date        : Sun Mar 26 16:11:12 CDT 2017
+Description : Operation failed: mutex 0x70001c38, result = Invalid argument
+Node        : khanh-VirtualBox
+Process     : superchat <15088>
+Thread      : 7fad77775700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/os_mutexLock/os_mutex.c/209/0/1490562672.837587277
+========================================================================================
+Report      : ERROR
+Date        : Sun Mar 26 16:11:12 CDT 2017
+Description : User layer not initialized
+Node        : khanh-VirtualBox
+Process     : superchat <15088>
+Thread      : 7fad77775700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/User Layer/u_user.c/118/0/1490562672.837592205
+========================================================================================
+Report      : ERROR
+Date        : Sun Mar 26 16:11:12 CDT 2017
+Description : Failed to connect to/create the default domain
+Node        : khanh-VirtualBox
+Process     : superchat <15088>
+Thread      : 7fad77775700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/gapi::gapi_domainParticipantFactory::gapi_domainParticipantFactory_create_participant/gapi_domainParticipantFactory.c/280/0/1490562672.837609939
+========================================================================================
+Report      : ERROR
+Date        : Sun Mar 26 16:11:12 CDT 2017
+Description : Operation failed: mutex 0x70001c38, result = Invalid argument
+Node        : khanh-VirtualBox
+Process     : superchat <15088>
+Thread      : 7fad77775700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/os_mutexUnlock/os_mutex.c/284/0/1490562672.837614448
+========================================================================================
+Report      : ERROR
+Date        : Sun Mar 26 16:11:12 CDT 2017
+Description : Operation failed: mutex 0x70001c38, result = Invalid argument
+Node        : khanh-VirtualBox
+Process     : superchat <15088>
+Thread      : 7fad77f76700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/os_mutexLock/os_mutex.c/209/0/1490562672.837625334
+========================================================================================
+Report      : ERROR
+Date        : Sun Mar 26 16:11:12 CDT 2017
+Description : User layer not initialized
+Node        : khanh-VirtualBox
+Process     : superchat <15088>
+Thread      : 7fad77f76700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/User Layer/u_user.c/118/0/1490562672.837629876
+========================================================================================
+Report      : ERROR
+Date        : Sun Mar 26 16:11:12 CDT 2017
+Description : Failed to connect to/create the default domain
+Node        : khanh-VirtualBox
+Process     : superchat <15088>
+Thread      : 7fad77f76700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/gapi::gapi_domainParticipantFactory::gapi_domainParticipantFactory_create_participant/gapi_domainParticipantFactory.c/280/0/1490562672.837646695
+========================================================================================
+Report      : ERROR
+Date        : Sun Mar 26 16:11:12 CDT 2017
+Description : Operation failed: mutex 0x70001c38, result = Invalid argument
+Node        : khanh-VirtualBox
+Process     : superchat <15088>
+Thread      : 7fad77f76700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/os_mutexUnlock/os_mutex.c/284/0/1490562672.837651163
+========================================================================================
+Report      : ERROR
+Date        : Sun Mar 26 16:11:24 CDT 2017
+Description : Failed to connect to/create the default domain
+Node        : khanh-VirtualBox
+Process     : superchat <15097>
+Thread      : main thread 7f29366d4700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/gapi::gapi_domainParticipantFactory::gapi_domainParticipantFactory_create_participant/gapi_domainParticipantFactory.c/280/0/1490562684.510969408
+========================================================================================
+Report      : ERROR
+Date        : Sun Mar 26 16:11:24 CDT 2017
+Description : Operation failed: mutex 0x2c001c38, result = Invalid argument
+Node        : khanh-VirtualBox
+Process     : superchat <15097>
+Thread      : 7f2934ed1700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/os_mutexLock/os_mutex.c/209/0/1490562684.511421719
+========================================================================================
+Report      : ERROR
+Date        : Sun Mar 26 16:11:24 CDT 2017
+Description : User layer not initialized
+Node        : khanh-VirtualBox
+Process     : superchat <15097>
+Thread      : 7f2934ed1700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/User Layer/u_user.c/118/0/1490562684.511435305
+========================================================================================
+Report      : ERROR
+Date        : Sun Mar 26 16:11:24 CDT 2017
+Description : Failed to connect to/create the default domain
+Node        : khanh-VirtualBox
+Process     : superchat <15097>
+Thread      : 7f2934ed1700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/gapi::gapi_domainParticipantFactory::gapi_domainParticipantFactory_create_participant/gapi_domainParticipantFactory.c/280/0/1490562684.511465638
+========================================================================================
+Report      : ERROR
+Date        : Sun Mar 26 16:11:24 CDT 2017
+Description : Operation failed: mutex 0x2c001c38, result = Invalid argument
+Node        : khanh-VirtualBox
+Process     : superchat <15097>
+Thread      : 7f2934ed1700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/os_mutexUnlock/os_mutex.c/284/0/1490562684.511472435
+========================================================================================
+Report      : ERROR
+Date        : Sun Mar 26 16:11:24 CDT 2017
+Description : Operation failed: mutex 0x2c001c38, result = Invalid argument
+Node        : khanh-VirtualBox
+Process     : superchat <15097>
+Thread      : 7f29356d2700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/os_mutexLock/os_mutex.c/209/0/1490562684.511488163
+========================================================================================
+Report      : ERROR
+Date        : Sun Mar 26 16:11:24 CDT 2017
+Description : User layer not initialized
+Node        : khanh-VirtualBox
+Process     : superchat <15097>
+Thread      : 7f29356d2700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/User Layer/u_user.c/118/0/1490562684.511493626
+========================================================================================
+Report      : ERROR
+Date        : Sun Mar 26 16:11:24 CDT 2017
+Description : Failed to connect to/create the default domain
+Node        : khanh-VirtualBox
+Process     : superchat <15097>
+Thread      : 7f29356d2700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/gapi::gapi_domainParticipantFactory::gapi_domainParticipantFactory_create_participant/gapi_domainParticipantFactory.c/280/0/1490562684.511514767
+========================================================================================
+Report      : ERROR
+Date        : Sun Mar 26 16:11:24 CDT 2017
+Description : Operation failed: mutex 0x2c001c38, result = Invalid argument
+Node        : khanh-VirtualBox
+Process     : superchat <15097>
+Thread      : 7f29356d2700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/os_mutexUnlock/os_mutex.c/284/0/1490562684.511520148
+========================================================================================
+Report      : ERROR
+Date        : Sun Mar 26 16:11:24 CDT 2017
+Description : Operation failed: mutex 0x2c001c38, result = Invalid argument
+Node        : khanh-VirtualBox
+Process     : superchat <15097>
+Thread      : 7f2935ed3700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/os_mutexLock/os_mutex.c/209/0/1490562684.511539566
+========================================================================================
+Report      : ERROR
+Date        : Sun Mar 26 16:11:24 CDT 2017
+Description : User layer not initialized
+Node        : khanh-VirtualBox
+Process     : superchat <15097>
+Thread      : 7f2935ed3700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/User Layer/u_user.c/118/0/1490562684.511545296
+========================================================================================
+Report      : ERROR
+Date        : Sun Mar 26 16:11:24 CDT 2017
+Description : Failed to connect to/create the default domain
+Node        : khanh-VirtualBox
+Process     : superchat <15097>
+Thread      : 7f2935ed3700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/gapi::gapi_domainParticipantFactory::gapi_domainParticipantFactory_create_participant/gapi_domainParticipantFactory.c/280/0/1490562684.511564748
+========================================================================================
+Report      : ERROR
+Date        : Sun Mar 26 16:11:24 CDT 2017
+Description : Operation failed: mutex 0x2c001c38, result = Invalid argument
+Node        : khanh-VirtualBox
+Process     : superchat <15097>
+Thread      : 7f2935ed3700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/os_mutexUnlock/os_mutex.c/284/0/1490562684.511569986

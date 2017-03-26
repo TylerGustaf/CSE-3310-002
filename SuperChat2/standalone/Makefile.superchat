@@ -32,17 +32,19 @@ EXEEXT        =
 LIBPREFIX     = lib
 LIBSUFFIX     = 
 GENFLAGS      = -O3 -DNDEBUG
-LDLIBS        = -l"superchat_types$(LIBSUFFIX)" -l"dcpssacpp" -l"ddskernel" -ldl $(subst lib,-l,$(sort $(basename $(notdir $(wildcard /usr/lib/librt.so /lib/librt.so))))) -lpthread
-OBJS          = .obj$(CFG)/CheckStatus$(OBJEXT) .obj$(CFG)/DDSEntityManager$(OBJEXT) .obj$(CFG)/SuperChatSrc$(OBJEXT)
-SRC           = ../src/CheckStatus.cpp ../src/DDSEntityManager.cpp ../src/SuperChatSrc.cpp
+LDLIBS        = -l"superchat_types$(LIBSUFFIX)" -l"dcpssacpp" -l"ddskernel" -ldl $(subst lib,-l,$(sort $(basename $(notdir $(wildcard /usr/lib/librt.so /lib/librt.so))))) -lpthread -lncurses
+OBJS          = .obj$(CFG)/CheckStatus$(OBJEXT) .obj$(CFG)/DDSEntityManager$(OBJEXT) .obj$(CFG)/SuperChatSrc$(OBJEXT) .obj$(CFG)/Gui$(OBJEXT) .obj$(CFG)/Window$(OBJEXT)
+SRC           = ../src/GUI/gui.cpp ../src/GUI/window.cpp ../src/CheckStatus.cpp ../src/DDSEntityManager.cpp ../src/SuperChatSrc.cpp
 LINK.cc       = $(LD) $(LDFLAGS)
-EXPORTFLAGS   = 
-
+EXPORTFLAGS   =
+TARGETS       = $(BIN)
+LDNCURSES     = -lncurses
+GUI           = -o window.o gui.o
 #----------------------------------------------------------------------------
 #       Local targets
 #----------------------------------------------------------------------------
 
-all: $(BIN)
+all: $(TARGETS)
 
 $(BIN): $(OBJS)
 	@$(TESTDIRSTART) "$(BTARGETDIR)" $(TESTDIREND) $(MKDIR) "$(BTARGETDIR)"
@@ -62,6 +64,15 @@ generated: $(GENERATED_DIRTY)
 .obj$(CFG)/SuperChatSrc$(OBJEXT): ../src/SuperChatSrc.cpp
 	@$(TESTDIRSTART) ".obj$(CFG)/" $(TESTDIREND) $(MKDIR) ".obj$(CFG)/"
 	$(COMPILE.cc) $(EXPORTFLAGS) $(OUTPUT_OPTION) ../src/SuperChatSrc.cpp
+
+.obj$(CFG)/Gui(OBJEXT): ../src/GUI/gui.cpp
+	@$(TESTDIRSTART) ".obj$(CFG)/" $(TESTDIREND) $(MKDIR) ".obj$(CFG)/"
+	$(COMPILE.cc) $(EXPORTFLAGS) $(OUTPUT_OPTION) ../src/GUI/gui.cpp $(LDNCURSES)
+
+.obj/Window.o: ../src/GUI/window.cpp
+	@$(TESTDIRSTART) ".obj$(CFG)/" $(TESTDIREND) $(MKDIR) ".obj$(CFG)/"
+	$(COMPILE.cc) $(EXPORTFLAGS) $(OUTPUT_OPTION) ../src/GUI/window.cpp $(LDNCURSES)
+
 
 clean:
 	-$(RM) $(OBJS)

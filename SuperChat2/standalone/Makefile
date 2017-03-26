@@ -23,7 +23,6 @@ clean depend generated realclean check-syntax $(CUSTOM_TARGETS):
 superchat_types:
 	@$(MAKE) -f Makefile.superchat_types all
 
-
 .PHONY: superchat
 superchat: superchat_types
 	@$(MAKE) -f Makefile.superchat all
