@@ -30,6 +30,10 @@
 #include "ccpp_SuperChat.h"
 #include "os.h"
 #include "GUI/gui.h"
+#include <fstream>
+#include <boost/uuid/uuid.hpp>
+#include <boost/uuid/uuid_generators.hpp>
+#include <boost/uuid/uuid_io.hpp>
 
 using namespace DDS;
 using namespace SuperChat;
@@ -491,17 +495,55 @@ void initializeChatrooms()
 
 void initializeLocalUser()
 {
-  int uuid = 6;
   int j = 0;
-  cin >> uuid;
-  cin.get();
+  unsigned long long x;
   char tempNick[NICK_SIZE_MAX];
+  char compare[NICK_SIZE_MAX];
+
+  ifstream file;
+  file.open("superchatdata.txt");
+  file >> x;
+
+if(x == NULL)
+{
+    cout << "Enter a Name: ";
+    j = 0;
+    do
+    {
+      cin.get(tempNick[j]);
+      j++;
+    }while(j < NICK_SIZE_MAX && (char)tempNick[j-1] != '\n');
+    boost::uuids::uuid uuid = boost::uuids::random_generator()();
+    memcpy(&x, &uuid, sizeof(x));
+    ofstream writer;
+    writer.open("superchatdata.txt");
+    writer << x;
+    writer << " ";
+    for(int i = 0; i < j; i++)
+    {
+      writer << tempNick[i];
+    }
+    //Remove any newline character in the Nick
+    for(int i = 0; i < NICK_SIZE_MAX; i++)
+    {
+      if(tempNick[i] == '\n')
+      {
+        tempNick[i] = '\0';
+        break;
+      }
+    }
+    writer << "\n";
+    writer.close();
+}
+else
+{
+  file.get();
   do
   {
-    cin.get(tempNick[j]);
+    file.get(tempNick[j]);
     j++;
   }while(j < NICK_SIZE_MAX && (char)tempNick[j-1] != '\n');
-
+  //Remove any newline character in the Nick
   for(int i = 0; i < NICK_SIZE_MAX; i++)
   {
     if(tempNick[i] == '\n')
@@ -510,13 +552,14 @@ void initializeLocalUser()
       break;
     }
   }
+}
 
   strncpy(localUser.nick, tempNick, NICK_SIZE_MAX);
-  localUser.uuid = uuid;
+  localUser.uuid = x;
   localUser.chatroom_idx = 1;
   listOfUsers.push_back(localUser);
   numOfUsers++;
-
+  file.close();
 }
 
 void printChatrooms()
@@ -537,7 +580,8 @@ void printUsers()
   }
 }
 
-void * guiThread(void * trash) {
+void * guiThread(void * trash) 
+{
     std::cout << "test" << std::endl;
     GUI * gui = new GUI();
 }
